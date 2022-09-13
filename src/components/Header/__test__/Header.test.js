@@ -1,7 +1,29 @@
 import { render, screen } from '@testing-library/react';
 import Header from '../Header';
 
-describe("Header", () => {
+// test the header component
+
+describe('render Header comoponent by different strategies', () => {
+    it('renders header component', () => {
+        render(<Header title="My header" />);
+        const headerElements = screen.queryAllByRole('heading');
+        expect(headerElements.length).toBe(2);
+    });
+/*     
+    it('renders header by role1', () => {
+        render(<Header title="My header" />);
+        const headerElement = screen.getByRole('heading');
+        expect(headerElement).toBeInTheDocument();
+    }); */
+
+    it('renders header by role2', () => {
+        render(<Header title="My header" />);
+        const headerElement = screen.getByRole('heading', { name: 'My header', });
+        expect(headerElement).toBeInTheDocument();
+    });
+})
+
+/* describe("Header", () => {
     it('should render same text passed into title prop', () => {
         render(
             <Header 
@@ -12,7 +34,7 @@ describe("Header", () => {
         expect(h1Element).toBeInTheDocument();
     });
 })
-
+ */
 // it('should render same text passed into title prop', () => {
 //     render(
 //         <Header 
