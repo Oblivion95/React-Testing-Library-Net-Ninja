@@ -7,7 +7,7 @@ describe('render Header comoponent by different strategies', () => {
     it('renders header component', () => {
         render(<Header title="My header" />);
         const headerElements = screen.queryAllByRole('heading');
-        expect(headerElements.length).toBe(2);
+        expect(headerElements.length).toBe(1);
     });
 /*     
     it('renders header by role1', () => {

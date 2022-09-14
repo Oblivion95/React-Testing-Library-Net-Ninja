@@ -1,10 +1,13 @@
 import React, { createContext, useState, useCallback, useRef, useEffect, useMemo } from 'react'
+import './styles.css'
 
 export const ExpandableContext = createContext()
 const { Provider } = ExpandableContext
 
-const Expandable = ({ children, onExpand }) => {
-  const [expanded, setExpanded] = useState(false)
+const Expandable = ({ children, onExpand, className = '', ...rest }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  const extendedClassName = ['Expandable', className].join(' ');
   const toggle = useCallback(
     () => setExpanded(prevExpanded => !prevExpanded),
     []
@@ -13,7 +16,7 @@ const Expandable = ({ children, onExpand }) => {
   useEffect(
     () => {
     if (!componentJustMounted.current) {
-        onExpand(expanded)
+        onExpand?.(expanded)
     }
      componentJustMounted.current = false
     },
@@ -25,7 +28,9 @@ const Expandable = ({ children, onExpand }) => {
   )
   return (
     <Provider value={value}>
+      <div className={extendedClassName} {...rest}>
         {children}
+      </div>
     </Provider>
   )
 }
