@@ -8,13 +8,13 @@ const Body = ({ children, ...rest }) => {
   const { className, ...restProps } = rest;
   const extendedClassName = ['Expandable-panel', className].filter(Boolean).join('');
 
-  return expanded ? (
+  return expanded && (
     <>
       <div className={extendedClassName} {...restProps}>
 
         {children}
       </div>
     </>
-  ) : null
+  );
 }
 export default Body

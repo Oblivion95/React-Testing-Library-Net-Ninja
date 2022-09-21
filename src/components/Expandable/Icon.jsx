@@ -7,7 +7,6 @@ const Icon = ({ className = '', ...rest }) => {
   const { expanded } = useContext(ExpandableContext)
   const extendedClassName = ['Expandable-icon', className].join(' ');
 
-
   return (
     <span className={extendedClassName} {...rest}>
       {expanded ? '-' : '+'}

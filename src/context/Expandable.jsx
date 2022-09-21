@@ -1,30 +1,32 @@
-import React, { createContext, useState, useCallback, useRef, useEffect, useMemo } from 'react'
+import React, { createContext, useRef, useEffect, useMemo } from 'react'
+import useExpanded from '../shared/hooks/useExpanded'
 import './styles.css'
 
 export const ExpandableContext = createContext()
 const { Provider } = ExpandableContext
 
-const Expandable = ({ children, onExpand, className = '', ...rest }) => {
-  const [expanded, setExpanded] = useState(false);
+const Expandable = ({ children, className = '', shouldExpand, onExpand, ...rest }) => {
+  const { expanded, toggle } = useExpanded();
+
+  const isExpandControlled = shouldExpand !== undefined;
+
+  const getState = isExpandControlled ? shouldExpand : expanded
+  const getToggle = isExpandControlled ? onExpand : toggle;
 
   const extendedClassName = ['Expandable', className].join(' ');
-  const toggle = useCallback(
-    () => setExpanded(prevExpanded => !prevExpanded),
-    []
-  )
   const componentJustMounted = useRef(true)
   useEffect(
     () => {
-    if (!componentJustMounted.current) {
+      if (!componentJustMounted.current && !isExpandControlled) {
         onExpand?.(expanded)
-    }
-     componentJustMounted.current = false
+        componentJustMounted.current = false
+      }
     },
-    [expanded]
+    [expanded, isExpandControlled, onExpand]
   )
   const value = useMemo(
-   () => ({ expanded, toggle }), 
-   [expanded, toggle]
+    () => ({ expanded: getState, toggle: getToggle }), 
+    [getToggle, getState]
   )
   return (
     <Provider value={value}>

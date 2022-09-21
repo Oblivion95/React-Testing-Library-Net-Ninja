@@ -28,7 +28,7 @@ describe("AddInput", () => {
         expect(inputElement.value).toBe("Go Grocery Shopping");
     });
     
-    it('should be able to type into input', () => {
+    it('should be able to type into inputs', () => {
         render(
             <AddInput 
                 todos={[]}

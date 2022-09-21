@@ -1,35 +1,47 @@
+import { useState } from 'react';
 import '../../components/Expandable';
 
 import Expandable from '../../context/Expandable'
 
+const information = [
+  {
+    header: 'Why everyone should live forrever',
+    note: 'This is highly sensitive information ... !!!!'
+  },
+  {
+    header: 'The internet disappears',
+    note:
+      'I just uncovered the biggest threat...'
+  },
+  {
+    header: 'The truth about Elon musk and Mars!',
+    note: 'Nobody tells you this...'
+  }
+]
+
 const ExpandableApp = () => {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const onExpand = evt => {setActiveIndex(evt.target.dataset.index)}
+
   return (
-    <div className='App'>
-      <Expandable>
-        <Expandable.Header style={{ color: 'red', border: '1px solid teal' }}>
-          React hooks
-        </Expandable.Header>
-        <Expandable.Icon />
-        <Expandable.Body>
-        <img
-                  src='/api/collection/10370001/4597752283529216/page/5195905143668736/image/4691607934730240'
-                  style={{ width: '250px' }}
-                  alt='reintroducing react book cover'
-              />
-              <p style={{ opacity: 0.7 }}>
-                This book is so amazing! <br />
-              <a
-                href='https://leanpub.com/reintroducing-react'
-                target='_blank'
-                rel='noopener noreferrer'
-                >
-                  Go get it now.
-              </a>
-            </p>
-        </Expandable.Body>
-      </Expandable>
-    </div>
-  )
-}
+  <div className='App'>
+    {information.map(({ header, note }, index) => (
+        <Expandable
+          shouldExpand={index == activeIndex}
+          onExpand={onExpand}
+          key={index}
+        >
+          <Expandable.Header
+            data-index={index}
+            style={{ color: 'red', border: '1px solid teal' }}
+          >
+            {header}
+          </Expandable.Header >
+          <Expandable.Icon />
+          <Expandable.Body>{note}</Expandable.Body>
+        </Expandable>
+    ))}
+  </div>
+)}
 
 export default ExpandableApp;
